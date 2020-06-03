@@ -6,7 +6,7 @@ package com.tencent.course.endpoints;/**
 import com.course.model.base.PageData;
 import com.course.model.course.param.CourseListParam;
 import com.course.model.course.result.CourseDTO;
-import com.tencent.course.service.CourseService;
+import com.tencent.course.manager.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

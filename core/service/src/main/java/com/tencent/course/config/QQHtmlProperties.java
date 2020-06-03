@@ -8,16 +8,17 @@ import lombok.ToString;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**
+ * 首页标签的class name动态配置，这里给的默认值，页面修改后可以更改配置文件
+ *
  * @author cgl
  * @date 2020/6/2 15:26
  */
-
 @Data
 @ToString
 @ConfigurationProperties(prefix = "crawl.html")
 public class QQHtmlProperties {
 
-    private String crawlUrl="https://ke.qq.com/";
+    private String crawlUrl = "https://ke.qq.com/";
 
     //"container"
     private String courseContainerClassName = "container";

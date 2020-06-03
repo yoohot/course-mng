@@ -4,8 +4,8 @@ package com.tencent.course.task;/**
  */
 
 import com.tencent.course.context.CrawlCourseFactory;
+import com.tencent.course.manager.CrawlCourseService;
 import com.tencent.course.model.CourseResourceEnum;
-import com.tencent.course.service.CrawlCourseService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
@@ -23,8 +23,7 @@ public class CrawlCourseTask {
     @Autowired
     private CrawlCourseService crawlCourseService;
 
-//    @Scheduled(cron = "0 0 0 * * ?")
-    @Scheduled(cron = "0 40-59 21 * * ?")
+    @Scheduled(cron = "0 0 5 * * ?")
     @Async("asyncTaskPool")
     public void asyncCrawlQQCourseTask() {
         //Redis.lock()

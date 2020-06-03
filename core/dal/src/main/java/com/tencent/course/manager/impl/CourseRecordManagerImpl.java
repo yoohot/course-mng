@@ -1,8 +1,8 @@
-package com.tencent.course.service.impl;
+package com.tencent.course.manager.impl;
 
 import com.tencent.course.entity.CourseRecord;
 import com.tencent.course.mapper.CourseRecordMapper;
-import com.tencent.course.service.ICourseRecordService;
+import com.tencent.course.manager.ICourseRecordManager;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2020-06-02
  */
 @Service
-public class CourseRecordServiceImpl extends ServiceImpl<CourseRecordMapper, CourseRecord> implements ICourseRecordService {
+public class CourseRecordManagerImpl extends ServiceImpl<CourseRecordMapper, CourseRecord> implements ICourseRecordManager {
 
 }

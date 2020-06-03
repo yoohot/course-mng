@@ -1,4 +1,4 @@
-package com.tencent.course.service.impl;
+package com.tencent.course.manager.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -6,8 +6,8 @@ import com.course.model.base.PageData;
 import com.course.model.course.param.CourseListParam;
 import com.course.model.course.result.CourseDTO;
 import com.tencent.course.entity.CourseRecord;
-import com.tencent.course.service.CourseService;
-import com.tencent.course.service.ICourseRecordService;
+import com.tencent.course.manager.CourseService;
+import com.tencent.course.manager.ICourseRecordManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -26,7 +26,7 @@ import java.util.stream.Collectors;
 public class CourseServiceImpl implements CourseService {
 
     @Autowired
-    private ICourseRecordService courseRecordService;
+    private ICourseRecordManager courseRecordService;
 
     /**
      * 首页课程列表

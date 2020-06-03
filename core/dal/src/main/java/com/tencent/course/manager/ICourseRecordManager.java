@@ -1,4 +1,4 @@
-package com.tencent.course.service;
+package com.tencent.course.manager;
 
 import com.tencent.course.entity.CourseRecord;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -11,6 +11,6 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author cgl
  * @since 2020-06-02
  */
-public interface ICourseRecordService extends IService<CourseRecord> {
+public interface ICourseRecordManager extends IService<CourseRecord> {
 
 }

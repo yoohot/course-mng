@@ -1,4 +1,4 @@
-package com.tencent.course.service;
+package com.tencent.course.manager;
 
 import com.course.model.base.PageData;
 import com.course.model.course.param.CourseListParam;

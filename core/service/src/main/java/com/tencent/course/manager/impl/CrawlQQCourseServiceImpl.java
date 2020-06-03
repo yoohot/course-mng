@@ -1,4 +1,4 @@
-package com.tencent.course.service.impl;/**
+package com.tencent.course.manager.impl;/**
  * @Author cgl
  * @Date 2020/6/2 13:52
  */
@@ -7,8 +7,8 @@ import com.tencent.course.config.QQHtmlProperties;
 import com.tencent.course.entity.CourseRecord;
 import com.tencent.course.model.CoursePriceType;
 import com.tencent.course.model.CourseResourceEnum;
-import com.tencent.course.service.CrawlCourseService;
-import com.tencent.course.service.ICourseRecordService;
+import com.tencent.course.manager.CrawlCourseService;
+import com.tencent.course.manager.ICourseRecordManager;
 import lombok.extern.slf4j.Slf4j;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
@@ -16,6 +16,7 @@ import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.math.BigDecimal;
@@ -34,7 +35,7 @@ import java.util.List;
 @Slf4j
 public class CrawlQQCourseServiceImpl implements CrawlCourseService {
     @Autowired
-    private ICourseRecordService courseRecordService;
+    private ICourseRecordManager courseRecordService;
 
     @Autowired
     private QQHtmlProperties qqHtmlProperties;
@@ -106,15 +107,18 @@ public class CrawlQQCourseServiceImpl implements CrawlCourseService {
             //课程教师
             String teacherName =  element.getElementsByClass(qqHtmlProperties.getCourseCardItemTeacherClassName()).attr("title");
             //价格相关
-            String priceValue = element.getElementsByClass(qqHtmlProperties.getCourseCardItemPriceClassName()).text();
+            String priceValue = element.getElementsByClass(qqHtmlProperties.getCourseCardItemPriceClassName()).get(0).text();
             if ("免费".equalsIgnoreCase(priceValue)) {
                 record.setPriceType(CoursePriceType.FREE.getType());
             } else {
                 record.setPriceType(CoursePriceType.PAY.getType());
-                String realPrice = element.getElementsByClass(qqHtmlProperties.getCourseCardItemPriceClassName()).text().substring(1);
-                String originPrice = element.getElementsByClass(qqHtmlProperties.getCourseCardItemPriceOriginClassName()).text().substring(1);
+                String realPrice = priceValue.substring(1);
+                String originPriceStr = element.getElementsByClass(qqHtmlProperties.getCourseCardItemPriceOriginClassName()).text();
+                if(!StringUtils.isEmpty(originPriceStr)){
+                    String originPrice =originPriceStr .substring(1);
+                    record.setPrice(new BigDecimal(originPrice));
+                }
                 record.setRealPrice(new BigDecimal(realPrice));
-                record.setPrice(new BigDecimal(originPrice));
             }
             record.setChapterNum(courseNum);
             record.setCourseUrl(courseUrl);
@@ -132,12 +136,6 @@ public class CrawlQQCourseServiceImpl implements CrawlCourseService {
         }
         return null;
 
-    }
-
-    public static void main(String[] args) {
-        CrawlCourseService crawlCourseService = new CrawlQQCourseServiceImpl();
-
-        crawlCourseService.crawl();
     }
 
 
