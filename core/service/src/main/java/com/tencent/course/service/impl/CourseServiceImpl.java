@@ -3,7 +3,6 @@ package com.tencent.course.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.course.model.base.PageData;
-import com.course.model.base.Result;
 import com.course.model.course.param.CourseListParam;
 import com.course.model.course.result.CourseDTO;
 import com.tencent.course.entity.CourseRecord;
@@ -12,6 +11,7 @@ import com.tencent.course.service.ICourseRecordService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -34,25 +34,25 @@ public class CourseServiceImpl implements CourseService {
      * @param param
      */
     @Override
-    public Result<PageData<CourseDTO>> courseList(CourseListParam param) {
+    public PageData<CourseDTO> courseList(CourseListParam param) {
         Page page = new Page();
-        page.setCurrent(param.getPageNo());
+        page.setCurrent(param.getPageNumber());
         page.setSize(param.getPageSize());
         page.setSearchCount(true);
         QueryWrapper query = new QueryWrapper();
-        //todo: query
-          courseRecordService.page(page, query);
+        if (!StringUtils.isEmpty(param.getTitle())) {
+            query.like("title", param.getTitle());
+        }
+        courseRecordService.page(page, query);
         PageData<CourseDTO> data = new PageData();
-        data.setPageNo(param.getPageNo());
-        data.setPageSize(param.getPageSize());
         data.setTotal(page.getTotal());
         List<CourseRecord> records = page.getRecords();
         if (CollectionUtils.isEmpty(records)) {
-            data.setList(new ArrayList<>());
+            data.setRows(new ArrayList<>());
         } else {
-            data.setList(records.stream().map(this::convertCourseEntityToDTO).collect(Collectors.toList()));
+            data.setRows(records.stream().map(this::convertCourseEntityToDTO).collect(Collectors.toList()));
         }
-        return Result.success(data) ;
+        return data;
     }
 
     private CourseDTO convertCourseEntityToDTO(CourseRecord r) {

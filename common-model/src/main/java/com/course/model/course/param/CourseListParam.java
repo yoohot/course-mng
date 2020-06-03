@@ -13,5 +13,7 @@ import lombok.Data;
 public class CourseListParam {
 
     private int pageSize=10;
-    private int pageNo=1;
+    private int pageNumber=1;
+
+    private String title;
 }

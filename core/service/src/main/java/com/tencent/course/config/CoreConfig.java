@@ -28,7 +28,7 @@ public class CoreConfig {
     @Bean("asyncTaskPool")
     public ThreadPoolExecutor asnycTaskThreadPoolExecutor() {
         BasicThreadFactory.Builder builder = new BasicThreadFactory.Builder();
-        builder.namingPattern("asyncTask");
+        builder.namingPattern("asyncTask_%s");
         ThreadPoolExecutor pool = new ThreadPoolExecutor(1, 5, 60L, TimeUnit.SECONDS, new SynchronousQueue<>(), builder.build(), new ThreadPoolExecutor.AbortPolicy());
         return pool;
     }

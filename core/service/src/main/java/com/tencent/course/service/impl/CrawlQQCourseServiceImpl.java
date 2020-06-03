@@ -14,7 +14,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
@@ -40,7 +39,7 @@ public class CrawlQQCourseServiceImpl implements CrawlCourseService {
     @Autowired
     private QQHtmlProperties qqHtmlProperties;
 
-    @Async("asyncTaskPool")
+
     @Override
     public void crawl() {
         try {

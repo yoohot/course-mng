@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--    <meta name="viewport" content="width=device-width, initial-scale=1 user-scalable=no">-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
+    <title>Bootstrap使用</title>
+    <!--jquery-->
+    <script type="text/javascript" src="/jquery/jquery-3.5.1.min.js"></script>
+
+    <!--bootstrap-->
+    <link rel="stylesheet" type="text/css" href="/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    <script type="text/javascript" src="/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+
+    <!--bootstrap-table-->
+    <link rel="stylesheet" type="text/css" href="/bootstrap-table/bootstrap-table.min.css">
+    <script type="text/javascript" src="/bootstrap-table/bootstrap-table.min.js"></script>
+    <script type="text/javascript" src="/bootstrap-table/locale/bootstrap-table-zh-CN.min.js"></script>
+
+    <!-- bootstrap-table表格 -->
+    <!--bootstrap-table-export-->
+    <script src="/bootstrap-table-export/bootstrap-table-export.js"></script>
+    <!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.1/extensions/export/bootstrap-table-export.js"></script>-->
+
+    <!--在客户端保存生成的导出文件-->
+    <script src="/bootstrap-table-export/FileSaver.min.js"></script>
+    <!--以XLSX（Excel 2007+ XML格式）格式导出表（SheetJS）-->
+    <script src="/bootstrap-table-export/xlsx.core.min.js"></script>
+    <!--将表导出为PDF文件-->
+    <script src="/bootstrap-table-export/jspdf.min.js"></script>
+    <script src="/bootstrap-table-export/jspdf.plugin.autotable.js"></script>
+    <!--以PNG格式导出表格-->
+    <!--对于IE支持包括 html2canvas 之前的 es6-promise-->
+    <script src="/bootstrap-table-export/es6-promise.auto.min.js"></script>
+    <script src="/bootstrap-table-export/html2canvas.min.js"></script>
+    <!--无论期望的格式如何，最后都包含 tableexport.jquery.plugin（不是tableexport）-->
+    <script src="/bootstrap-table-export/tableExport.min.js"></script>
+</head>
+<body>
+<H2 align="center">腾讯课堂首页课程列表</H2>
+<hr/>
+<div class="container-fluid">
+    <div id ="toolbar">
+        <form class="form-inline" role="form" style="margin-left: 10px">
+            <div class="form-group">
+                <label for="titleSearch">标题：</label>
+                <input type="text" id="titleSearch" class="form-control" placeholder="模糊搜索">
+            </div>
+            <button class="btn btn-default" type="button" name="refresh" aria-label="Refresh" title="查询">
+                <i class="glyphicon glyphicon-search icon-search"></i>
+            </button>
+
+        </form>
+    </div>
+    <div id ="tables"  ><table id="table" data-locale="zh-CN" data-pagination="true"   ></table></div>
+</div>
+</body>
+<script>
+    // 初始化表格
+    function initTable() {
+        $('#table').bootstrapTable({
+            ajax:function(request){                    //使用ajax请求
+                $.ajax({
+                    type:"GET",
+                    url:'course/list',
+                    contentType:'application/json;charset=utf-8',
+                    dataType:'json',
+                    data:request.data,
+                    success:function (res) {
+                        request.success({
+                            row:res,
+                        });
+                        $('#table').bootstrapTable('load', res);
+                    },
+                    error:function(error){
+                        console.log(error);
+                    }
+                })
+            },
+            toolbar: '#toolbar',                //工具按钮用哪个容器
+            striped: true,                      //是否显示行间隔色
+            cache: false,                       //是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
+            pagination: true,                   //是否显示分页（*）
+            sortable: true,                     //是否启用排序
+            sortOrder: "asc",                   //排序方式
+           // queryParams: 'queryParams',         //传递参数（*）
+            sidePagination: "server",           //分页方式：client客户端分页，server服务端分页（*）
+            pageNumber:1,                       //初始化加载第一页，默认第一页
+            pageSize: 10,                       //每页的记录行数（*）
+            pageList: [10, 25, 50, 100],        //可供选择的每页的行数（*）
+            smartDisplay:false,
+            search: false,                      //是否显示表格搜索，此搜索是客户端搜索，不会进服务端，所以，个人感觉意义不大
+            strictSearch: true,
+            showColumns: false,                 //是否显示所有的列
+            showRefresh: false,                 //是否显示刷新按钮
+            minimumCountColumns: 2,             //最少允许的列数
+            clickToSelect: true,                //是否启用点击选中行
+            height: 600,                        //行高，如果没有设置height属性，表格自动根据记录条数觉得表格高度
+            uniqueId: "ID",                     //每一行的唯一标识，一般为主键列
+            showToggle:false,                   //是否显示详细视图和列表视图的切换按钮
+            cardView: false,                    //是否显示详细视图
+            detailView: false,                   //是否显示父子表
+            //是否显示 切换试图（table/card）按钮
+            showToggle: true,
+            //是否显示刷新按钮
+            showRefresh: true,
+            //得到查询的参数
+            queryParams : function (params) {
+                //debugger;
+                //这里的键的名字和控制器的变量名必须一直，这边改动，控制器也需要改成一样的
+                var temp = {
+
+                    title: $('#titleSearch').val(),
+                    // pageSize: params.limit, //页面大小
+                    pageSize: params.limit, //页面大小
+                     pageNumber: (params.offset / params.limit) + 1, //页码
+                    sortOrder: params.order //排序方式（desc，asc）
+                };
+                return temp;
+            },
+            columns: [{
+                checkbox: true,
+                visible: true  //是否显示复选框
+                // visible: $(this).val() === 'selected'
+            }, {
+                field: 'title',
+                title: '标题',
+                width:100,
+                sortable: false
+            } , {
+                field: 'openDate',
+                title: '展示日期',
+                width:100,
+                sortable: false
+            } , {
+                field: 'pictUrl',
+                title: '主图',
+                width:100,
+                formatter:imgFormatter
+            }, {
+                field: 'realPrice',
+                title: '价格',
+                width:100,
+                sortable: false
+            } , {
+                field: 'categoryName',
+                title: '类别',
+                width:100,
+                sortable: false
+            }  , {
+                field: 'courseUrl',
+                title: '详情',
+                width:100,
+                formatter: linkFormatter
+            } ],
+            onLoadSuccess: function () {
+            },
+            onLoadError: function () {
+                alert("数据加载失败！");
+            },
+            //双击行数据的事件
+            onDblClickRow: function (row, $element) {
+                // var id = row.ID;
+                // EditViewById(id, 'view');
+            },
+        });
+    }
+    //连接字段格式化
+    function linkFormatter(value, row, index) {
+        return "<a href='" + value + "' title='单击查看详情' target='_blank'>" + '详情' + "</a>";
+    }
+
+    //连接字段格式化
+    function imgFormatter(value, row, index) {
+        return"<a href='" + value + "' title='单击查看详情' target='_blank'>" + '查看主图' + "</a>";
+    }
+    $(function () {
+        //调用函数，初始化表格,导出时默认导出全部
+        initTable();
+    });
+    
+    function search() {
+        $('#table').bootstrapTable('refresh', {silent:true});
+    }
+</script>
+</html>

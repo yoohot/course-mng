@@ -11,9 +11,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @author cgl
  * @date 2020/6/2 15:26
  */
-@ConfigurationProperties
+
 @Data
 @ToString
+@ConfigurationProperties(prefix = "crawl.html")
 public class QQHtmlProperties {
 
     private String crawlUrl="https://ke.qq.com/";

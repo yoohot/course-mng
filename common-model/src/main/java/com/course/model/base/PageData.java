@@ -1,22 +1,25 @@
 package com.course.model.base;/**
  * @Author cgl
- * @Date 2020/6/2 20:06
+ * @Date 2020/6/3 9:32
  */
 
 import lombok.Data;
+import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
  * @author cgl
- * @date 2020/6/2 20:06
+ * @date 2020/6/3 9:32
  */
+
 @Data
+@ToString
 public class PageData<T> {
 
-    private List<T> list;
-
+    // 实体类集合
+    private List<T> rows = new ArrayList<T>();
+    // 数据总条数
     private long total;
-    private int pageNo;
-    private int pageSize;
 }
