@@ -1,7 +1,7 @@
 package com.tencent.course.endpoints;
 
-import com.course.model.base.Result;
-import com.course.model.base.RetCode;
+import com.tencent.course.model.base.Result;
+import com.tencent.course.model.base.RetCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;

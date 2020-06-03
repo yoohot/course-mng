@@ -4,8 +4,8 @@ package com.tencent.course.context;/**
  */
 
 import com.tencent.course.model.CourseResourceEnum;
-import com.tencent.course.manager.CrawlCourseService;
-import com.tencent.course.manager.impl.CrawlQQCourseServiceImpl;
+import com.tencent.course.service.CrawlCourseService;
+import com.tencent.course.service.impl.CrawlQQCourseServiceImpl;
 import org.springframework.beans.factory.SmartInitializingSingleton;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

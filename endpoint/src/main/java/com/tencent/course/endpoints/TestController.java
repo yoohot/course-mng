@@ -1,7 +1,7 @@
 package com.tencent.course.endpoints;
 
-import com.course.model.base.Result;
-import com.tencent.course.manager.CrawlCourseService;
+import com.tencent.course.model.base.Result;
+import com.tencent.course.service.CrawlCourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.web.bind.annotation.GetMapping;

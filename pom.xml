@@ -3,11 +3,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <modules>
-        <module>core</module>
         <module>endpoint</module>
-        <module>common-model</module>
         <module>bootstrap</module>
         <module>test</module>
+        <module>persistent</module>
+        <module>facade</module>
+        <module>model</module>
     </modules>
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -122,22 +123,17 @@
             </dependency>
             <dependency>
                 <groupId>com.tencent.course</groupId>
-                <artifactId>common-model</artifactId>
+                <artifactId>model</artifactId>
                 <version>${course.project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.tencent.course</groupId>
-                <artifactId>core</artifactId>
+                <artifactId>persistent</artifactId>
                 <version>${course.project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.tencent.course</groupId>
-                <artifactId>dal</artifactId>
-                <version>${course.project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.tencent.course</groupId>
-                <artifactId>service</artifactId>
+                <artifactId>facade</artifactId>
                 <version>${course.project.version}</version>
             </dependency>
             <dependency>
@@ -152,16 +148,6 @@
 
     </dependencyManagement>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <mainClass>com.tencent.course.BootstrapApplication</mainClass>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+
 
 </project>
