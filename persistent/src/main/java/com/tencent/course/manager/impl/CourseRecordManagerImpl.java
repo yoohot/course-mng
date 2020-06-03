@@ -15,6 +15,6 @@ import org.springframework.stereotype.Service;
  * @since 2020-06-02
  */
 @Service
-public class CourseRecordServiceImpl extends ServiceImpl<CourseRecordMapper, CourseRecord> implements ICourseRecordManager {
+public class CourseRecordManagerImpl extends ServiceImpl<CourseRecordMapper, CourseRecord> implements ICourseRecordManager {
 
 }
